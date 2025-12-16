@@ -1,0 +1,55 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.piano-key {
+  transition: all 0.1s ease;
+}
+
+.piano-key:active {
+  transform: translateY(2px);
+}
+
+.piano-key.white {
+  background: linear-gradient(to bottom, #ffffff 0%, #f5f5f5 100%);
+  border: 1px solid #333;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.piano-key.white:hover {
+  background: linear-gradient(to bottom, #f0f0f0 0%, #e5e5e5 100%);
+}
+
+.piano-key.black {
+  background: linear-gradient(to bottom, #333 0%, #000 100%);
+  border: 1px solid #000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.piano-key.black:hover {
+  background: linear-gradient(to bottom, #444 0%, #111 100%);
+}
+
+.staff-line {
+  stroke: #333;
+  stroke-width: 2;
+}
+
+.note-head {
+  fill: #000;
+}
+
+.note-stem {
+  stroke: #000;
+  stroke-width: 2;
+}
