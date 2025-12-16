@@ -320,25 +320,27 @@ const App = () => {
             <h2 className="text-xl sm:text-2xl font-semibold text-gray-700 mb-2">识别这个音符</h2>
           </div>
           
-          <MusicStaff 
-            note={currentNote} 
-            showFeedback={showFeedback}
-            isCorrect={isCorrect}
-          />
-          
-          {showAnswer && (
-            <div className="mt-4 text-center">
-              <button
-                onClick={() => playNoteSound(currentNote)}
-                className="inline-block bg-blue-100 border-2 border-blue-500 rounded-lg px-4 sm:px-6 py-2 sm:py-3 hover:bg-blue-200 hover:border-blue-600 transition-all duration-200 cursor-pointer transform hover:scale-105"
-              >
-                <span className="text-gray-600 text-xs sm:text-sm">正确答案：</span>
-                <span className="text-blue-600 text-lg sm:text-2xl font-bold ml-1 sm:ml-2">
-                  {getNoteLabel(currentNote)}
-                </span>
-              </button>
-            </div>
-          )}
+          <div className="relative">
+            <MusicStaff
+              note={currentNote}
+              showFeedback={showFeedback}
+              isCorrect={isCorrect}
+            />
+
+            {showAnswer && (
+              <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-2">
+                <button
+                  onClick={() => playNoteSound(currentNote)}
+                  className="inline-block bg-blue-100 border-2 border-blue-500 rounded-lg px-2 sm:px-4 py-1 sm:py-2 hover:bg-blue-200 hover:border-blue-600 transition-all duration-200 cursor-pointer transform hover:scale-105 text-sm sm:text-base"
+                >
+                  <span className="text-gray-600 text-xs">正确答案：</span>
+                  <span className="text-blue-600 text-sm sm:text-lg font-bold ml-1">
+                    {getNoteLabel(currentNote)}
+                  </span>
+                </button>
+              </div>
+            )}
+          </div>
         </div>
 
         <Piano onKeyPress={handleKeyPress} disabled={disabled} />
