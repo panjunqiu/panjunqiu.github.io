@@ -32,24 +32,24 @@ const Piano = ({ onKeyPress, disabled }) => {
   }, [disabled, onKeyPress]);
 
   return (
-    <div className="flex justify-center items-end gap-1 p-8 bg-gradient-to-b from-gray-800 to-gray-900 rounded-lg shadow-2xl">
+    <div className="flex justify-center items-end gap-0.5 sm:gap-1 p-2 sm:p-8 bg-gradient-to-b from-gray-800 to-gray-900 rounded-lg shadow-2xl overflow-x-auto">
       {notes.map((note) => (
         <button
           key={note.name}
           onClick={() => !disabled && onKeyPress(note.name)}
           disabled={disabled}
-          className={`piano-key ${note.type} relative flex flex-col items-center justify-end pb-2 ${
-            note.type === 'white' 
-              ? 'w-12 h-40 rounded-b-lg' 
-              : 'w-8 h-24 -mx-4 z-10 rounded-b-md'
-          } ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
+          className={`piano-key ${note.type} relative flex flex-col items-center justify-end pb-1 sm:pb-2 min-w-0 flex-shrink-0 ${
+            note.type === 'white'
+              ? 'w-8 sm:w-12 h-28 sm:h-40 rounded-b-lg'
+              : 'w-5 sm:w-8 h-16 sm:h-24 -mx-2 sm:-mx-4 z-10 rounded-b-md'
+          } ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer active:scale-95'}`}
         >
-          <span className={`text-xs font-semibold ${
+          <span className={`text-[10px] sm:text-xs font-semibold ${
             note.type === 'white' ? 'text-gray-700' : 'text-white'
           }`}>
             {note.label}
           </span>
-          <span className={`text-[10px] ${
+          <span className={`text-[8px] sm:text-[10px] hidden sm:block ${
             note.type === 'white' ? 'text-gray-500' : 'text-gray-400'
           }`}>
             {note.key}

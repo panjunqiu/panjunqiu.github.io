@@ -5,6 +5,8 @@ const MusicStaff = ({ note, showFeedback, isCorrect }) => {
   const staffWidth = 400;
   const lineSpacing = 20;
   const startY = 60;
+  const leftMargin = 20;  // 更小的左边距
+  const rightMargin = 20; // 保持右边距对称
 
   // 音符位置映射 (从下往上，五线谱从下到上是 E4-F5)
   const notePositions = {
@@ -27,22 +29,27 @@ const MusicStaff = ({ note, showFeedback, isCorrect }) => {
   const noteX = staffWidth / 2;
 
   return (
-    <div className="relative">
-      <svg width={staffWidth} height={staffHeight} className="mx-auto">
+    <div className="relative flex justify-center">
+      <svg
+        width={staffWidth}
+        height={staffHeight}
+        className="max-w-full h-auto"
+        viewBox={`0 0 ${staffWidth} ${staffHeight}`}
+      >
         {/* 五线谱 */}
         {[0, 1, 2, 3, 4].map((i) => (
           <line
             key={i}
-            x1="50"
+            x1={leftMargin}
             y1={startY + i * lineSpacing}
-            x2={staffWidth - 50}
+            x2={staffWidth - rightMargin}
             y2={startY + i * lineSpacing}
             className="staff-line"
           />
         ))}
 
         {/* 高音谱号 (简化版) */}
-        <text x="60" y={startY + lineSpacing * 2 + 10} fontSize="48" fontFamily="serif">
+        <text x={leftMargin + 8} y={startY + lineSpacing * 2 + 10} fontSize="48" fontFamily="serif">
           𝄞
         </text>
 

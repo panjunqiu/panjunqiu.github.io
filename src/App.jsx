@@ -297,13 +297,16 @@ const App = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-100 via-purple-50 to-pink-100 py-8 px-4">
-      <div className="max-w-4xl mx-auto">
-        <div className="text-center mb-8">
-          <h1 className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600 mb-2">
+    <div className="h-screen sm:min-h-screen bg-gradient-to-br from-indigo-100 via-purple-50 to-pink-100 py-2 sm:py-8 px-0 sm:px-4 overflow-y-auto">
+      <div className="sm:max-w-4xl mx-auto px-1 sm:px-0 h-full sm:h-auto flex flex-col sm:block">
+        <div className="text-center mb-4 sm:mb-8">
+          <h1 className="text-3xl sm:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600 mb-2">
             五线谱识谱练习
           </h1>
-          <p className="text-gray-600">点击琴键或使用键盘快捷键识别音符</p>
+          <p className="text-sm sm:text-base text-gray-600">
+            <span className="sm:hidden">点击琴键识别音符</span>
+            <span className="hidden sm:inline">点击琴键或使用键盘快捷键识别音符</span>
+          </p>
         </div>
 
         <ScoreBoard 
@@ -312,9 +315,9 @@ const App = () => {
           streak={score.streak}
         />
 
-        <div className="bg-white rounded-2xl shadow-2xl p-8 mb-6">
-          <div className="mb-4 text-center">
-            <h2 className="text-2xl font-semibold text-gray-700 mb-2">识别这个音符</h2>
+        <div className="bg-white rounded-2xl shadow-2xl p-4 sm:p-8 mb-4 sm:mb-6">
+          <div className="mb-2 sm:mb-4 text-center">
+            <h2 className="text-xl sm:text-2xl font-semibold text-gray-700 mb-2">识别这个音符</h2>
           </div>
           
           <MusicStaff 
@@ -327,10 +330,10 @@ const App = () => {
             <div className="mt-4 text-center">
               <button
                 onClick={() => playNoteSound(currentNote)}
-                className="inline-block bg-blue-100 border-2 border-blue-500 rounded-lg px-6 py-3 hover:bg-blue-200 hover:border-blue-600 transition-all duration-200 cursor-pointer transform hover:scale-105"
+                className="inline-block bg-blue-100 border-2 border-blue-500 rounded-lg px-4 sm:px-6 py-2 sm:py-3 hover:bg-blue-200 hover:border-blue-600 transition-all duration-200 cursor-pointer transform hover:scale-105"
               >
-                <span className="text-gray-600 text-sm">正确答案：</span>
-                <span className="text-blue-600 text-2xl font-bold ml-2">
+                <span className="text-gray-600 text-xs sm:text-sm">正确答案：</span>
+                <span className="text-blue-600 text-lg sm:text-2xl font-bold ml-1 sm:ml-2">
                   {getNoteLabel(currentNote)}
                 </span>
               </button>
@@ -341,52 +344,52 @@ const App = () => {
         <Piano onKeyPress={handleKeyPress} disabled={disabled} />
 
         {waitingConfirm && (
-          <div className="text-center mt-6">
+          <div className="text-center mt-4 sm:mt-6">
             <button
               onClick={handleConfirm}
-              className="px-8 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200"
+              className="px-6 sm:px-8 py-2 sm:py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 text-sm sm:text-base"
             >
               确定，下一题
             </button>
           </div>
         )}
 
-        <div className="text-center mt-6 flex gap-4 justify-center flex-wrap">
+        <div className="text-center mt-4 sm:mt-6 flex gap-2 sm:gap-4 justify-center flex-wrap">
           {!isTimerActive && (
             <button
               onClick={() => setShowTimerSettings(!showTimerSettings)}
-              className="px-8 py-3 bg-gradient-to-r from-blue-600 to-cyan-600 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200"
+              className="px-4 sm:px-8 py-2 sm:py-3 bg-gradient-to-r from-blue-600 to-cyan-600 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 text-sm sm:text-base"
             >
               定时练习
             </button>
           )}
           {isTimerActive && (
-            <div className="px-8 py-3 bg-gradient-to-r from-orange-500 to-red-500 text-white font-semibold rounded-full shadow-lg">
+            <div className="px-4 sm:px-8 py-2 sm:py-3 bg-gradient-to-r from-orange-500 to-red-500 text-white font-semibold rounded-full shadow-lg text-sm sm:text-base">
               剩余时间：{formatTime(remainingTime)}
             </div>
           )}
           <button
             onClick={handleReset}
-            className="px-8 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200"
+            className="px-4 sm:px-8 py-2 sm:py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 text-sm sm:text-base"
           >
             重新开始
           </button>
           <button
             onClick={() => setShowStats(!showStats)}
-            className="px-8 py-3 bg-gradient-to-r from-green-600 to-teal-600 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200"
+            className="px-4 sm:px-8 py-2 sm:py-3 bg-gradient-to-r from-green-600 to-teal-600 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 text-sm sm:text-base"
           >
             {showStats ? '隐藏数据' : '数据统计'}
           </button>
           <button
             onClick={() => setShowLearning(!showLearning)}
-            className="px-8 py-3 bg-gradient-to-r from-yellow-600 to-orange-600 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200"
+            className="px-4 sm:px-8 py-2 sm:py-3 bg-gradient-to-r from-yellow-600 to-orange-600 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 text-sm sm:text-base"
           >
             {showLearning ? '隐藏学习' : '学习模块'}
           </button>
           {showAnswerButton && !showAnswer && (
             <button
               onClick={handleShowAnswer}
-              className="px-8 py-3 bg-gradient-to-r from-amber-500 to-orange-500 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200"
+              className="px-4 sm:px-8 py-2 sm:py-3 bg-gradient-to-r from-amber-500 to-orange-500 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 text-sm sm:text-base"
             >
               显示答案
             </button>
@@ -1040,7 +1043,7 @@ const App = () => {
       </div>
     )}
 
-        <div className="mt-8 bg-white rounded-lg p-6 shadow-lg">
+        <div className="mt-8 bg-white rounded-lg p-6 shadow-lg hidden sm:block">
           <h3 className="text-lg font-semibold text-gray-700 mb-3">键盘快捷键</h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-sm text-gray-600">
             <div><kbd className="px-2 py-1 bg-gray-100 rounded">A</kbd> = do</div>
