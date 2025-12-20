@@ -32,7 +32,7 @@ const Piano = ({ onKeyPress, disabled }) => {
   }, [disabled, onKeyPress]);
 
   return (
-    <div className="flex justify-center items-end gap-0.5 sm:gap-1 p-2 sm:p-8 bg-gradient-to-b from-gray-800 to-gray-900 rounded-lg shadow-2xl overflow-x-auto">
+    <div className="flex justify-center items-end gap-0.5 sm:gap-1 p-1 sm:p-8 bg-gradient-to-b from-gray-800 to-gray-900 rounded-lg shadow-2xl overflow-x-auto min-h-[100px] sm:min-h-[200px]">
       {notes.map((note) => (
         <button
           key={note.name}
@@ -40,8 +40,8 @@ const Piano = ({ onKeyPress, disabled }) => {
           disabled={disabled}
           className={`piano-key ${note.type} relative flex flex-col items-center justify-end pb-1 sm:pb-2 min-w-0 flex-shrink-0 ${
             note.type === 'white'
-              ? 'w-8 sm:w-12 h-28 sm:h-40 rounded-b-lg'
-              : 'w-5 sm:w-8 h-16 sm:h-24 -mx-2 sm:-mx-4 z-10 rounded-b-md'
+              ? 'w-7 sm:w-12 h-20 sm:h-40 min-h-[80px] sm:min-h-[160px] rounded-b-lg'
+              : 'w-4 sm:w-8 h-12 sm:h-24 min-h-[48px] sm:min-h-[96px] -mx-1.5 sm:-mx-4 z-10 rounded-b-md'
           } ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer active:scale-95'}`}
         >
           <span className={`text-[10px] sm:text-xs font-semibold ${
