@@ -327,7 +327,7 @@ const App = () => {
             五线谱识谱练习
           </h1>
           <p className="text-sm sm:text-base text-gray-600">
-            <span className="sm:hidden">点击琴键识别音符</span>
+            <span className="sm:hidden">点击音符对应的琴键</span>
             <span className="hidden sm:inline">
               点击琴键或使用键盘快捷键识别音符
             </span>
@@ -365,15 +365,14 @@ const App = () => {
               )}
               {showAnswer && (
                 <>
-                  {waitingConfirm ||
-                    (showAnswer && (
-                      <button
-                        onClick={handleConfirm}
-                        className="px-4 sm:px-6 py-1 sm:py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 text-sm sm:text-base"
-                      >
-                        下一题
-                      </button>
-                    ))}
+                  {waitingConfirm && (
+                    <button
+                      onClick={handleConfirm}
+                      className="px-4 sm:px-6 py-1 sm:py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 text-sm sm:text-base"
+                    >
+                      下一题
+                    </button>
+                  )}
                   <button
                     onClick={() => playNoteSound(currentNote)}
                     className="inline-block bg-blue-100 border-2 border-blue-500 rounded-lg px-2 sm:px-4 py-1 sm:py-2 hover:bg-blue-200 hover:border-blue-600 transition-all duration-200 cursor-pointer transform hover:scale-105 text-sm sm:text-base"
