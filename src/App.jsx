@@ -8,6 +8,33 @@ import LearningModule from "./components/LearningModule";
 import StatisticsPanel from "./components/StatisticsPanel";
 import KeyboardShortcuts from "./components/KeyboardShortcuts";
 
+// 全局AudioContext管理（解决iOS音频播放问题）
+let globalAudioContext = null;
+
+// 初始化音频上下文
+const initAudioContext = async () => {
+  if (!globalAudioContext) {
+    try {
+      globalAudioContext = new (window.AudioContext || window.webkitAudioContext)();
+    } catch (error) {
+      console.warn('AudioContext创建失败:', error);
+      return false;
+    }
+  }
+
+  // 确保AudioContext已激活（主要针对iOS Safari）
+  if (globalAudioContext.state === 'suspended') {
+    try {
+      await globalAudioContext.resume();
+    } catch (error) {
+      console.warn('AudioContext恢复失败:', error);
+      return false;
+    }
+  }
+
+  return globalAudioContext.state === 'running';
+};
+
 const App = () => {
   const notes = [
     "C4",
@@ -95,6 +122,26 @@ const App = () => {
 
   useEffect(() => {
     generateNewNote();
+
+    // 在首次用户交互时初始化音频（主要针对iOS Safari）
+    const handleFirstInteraction = async () => {
+      const isReady = await initAudioContext();
+      if (isReady) {
+        console.log('音频已激活');
+        // 移除事件监听器（只需要一次）
+        document.removeEventListener('touchstart', handleFirstInteraction, { passive: true });
+        document.removeEventListener('click', handleFirstInteraction);
+      }
+    };
+
+    // 添加多种事件监听以确保捕获首次交互
+    document.addEventListener('touchstart', handleFirstInteraction, { passive: true });
+    document.addEventListener('click', handleFirstInteraction);
+
+    return () => {
+      document.removeEventListener('touchstart', handleFirstInteraction, { passive: true });
+      document.removeEventListener('click', handleFirstInteraction);
+    };
   }, []);
 
   // 定时器效果
@@ -272,8 +319,8 @@ const App = () => {
     }
   };
 
-  // 播放音符声音
-  const playNoteSound = (noteName) => {
+  // 播放音符声音（兼容PC和移动端）
+  const playNoteSound = async (noteName) => {
     // 音符频率映射（Hz）
     const frequencies = {
       C4: 261.63,
@@ -291,25 +338,34 @@ const App = () => {
       A5: 880.0,
     };
 
-    const audioContext = new (window.AudioContext ||
-      window.webkitAudioContext)();
-    const oscillator = audioContext.createOscillator();
-    const gainNode = audioContext.createGain();
+    // 初始化音频上下文（在用户交互中）
+    const isReady = await initAudioContext();
+    if (!isReady) {
+      console.warn('音频播放不可用:', noteName);
+      return;
+    }
 
-    oscillator.connect(gainNode);
-    gainNode.connect(audioContext.destination);
+    try {
+      const oscillator = globalAudioContext.createOscillator();
+      const gainNode = globalAudioContext.createGain();
 
-    oscillator.frequency.value = frequencies[noteName];
-    oscillator.type = "sine";
+      oscillator.connect(gainNode);
+      gainNode.connect(globalAudioContext.destination);
 
-    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-    gainNode.gain.exponentialRampToValueAtTime(
-      0.01,
-      audioContext.currentTime + 1
-    );
+      oscillator.frequency.value = frequencies[noteName];
+      oscillator.type = "sine";
 
-    oscillator.start(audioContext.currentTime);
-    oscillator.stop(audioContext.currentTime + 1);
+      gainNode.gain.setValueAtTime(0.3, globalAudioContext.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(
+        0.01,
+        globalAudioContext.currentTime + 1
+      );
+
+      oscillator.start(globalAudioContext.currentTime);
+      oscillator.stop(globalAudioContext.currentTime + 1);
+    } catch (error) {
+      console.warn('音频播放失败:', error);
+    }
   };
 
   // 显示答案并播放声音
