@@ -84,14 +84,37 @@ const LearningModule = ({ showLearning, notes, noteToSolfege, playNoteSound }) =
                     fill="#333"
                     transform={`rotate(-20 30 ${noteY})`}
                   />
-                  <line
-                    x1="35.5"
-                    y1={noteY}
-                    x2="35.5"
-                    y2={noteY - 25}
-                    stroke="#333"
-                    strokeWidth="1.5"
-                  />
+                  {(() => {
+                    // A4及以下音符：符干向上，从音符头右侧向上延伸
+                    // B4(si)及以上音符：符干向下，从音符头左侧向下延伸
+                    const isHighNote = ['B4', 'C5', 'D5', 'E5', 'F5', 'G5', 'A5'].includes(noteName);
+
+                    if (isHighNote) {
+                      // 高音符干向下
+                      return (
+                        <line
+                          x1="24.5"
+                          y1={noteY}
+                          x2="24.5"
+                          y2={noteY + 25}
+                          stroke="#333"
+                          strokeWidth="1.5"
+                        />
+                      );
+                    } else {
+                      // 低音符干向上
+                      return (
+                        <line
+                          x1="35.5"
+                          y1={noteY}
+                          x2="35.5"
+                          y2={noteY - 25}
+                          stroke="#333"
+                          strokeWidth="1.5"
+                        />
+                      );
+                    }
+                  })()}
                 </svg>
 
                 <div className="text-center">

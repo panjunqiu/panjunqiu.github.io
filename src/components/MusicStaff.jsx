@@ -86,13 +86,35 @@ const MusicStaff = ({ note, showFeedback, isCorrect }) => {
         />
         
         {/* 符干 */}
-        <line
-          x1={noteX + 9}
-          y1={noteY}
-          x2={noteX + 9}
-          y2={noteY - 35}
-          className="note-stem"
-        />
+        {(() => {
+          // A4及以下音符：符干向上，从音符头右侧向上延伸
+          // B4(si)及以上音符：符干向下，从音符头左侧向下延伸
+          const isHighNote = ['B4', 'C5', 'D5', 'E5', 'F5', 'G5', 'A5'].includes(note);
+
+          if (isHighNote) {
+            // 高音符干向下
+            return (
+              <line
+                x1={noteX - 9}
+                y1={noteY}
+                x2={noteX - 9}
+                y2={noteY + 35}
+                className="note-stem"
+              />
+            );
+          } else {
+            // 低音符干向上
+            return (
+              <line
+                x1={noteX + 9}
+                y1={noteY}
+                x2={noteX + 9}
+                y2={noteY - 35}
+                className="note-stem"
+              />
+            );
+          }
+        })()}
       </svg>
 
       {/* 反馈提示 */}
